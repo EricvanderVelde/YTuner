@@ -290,6 +290,10 @@ Simply execute `ytuner.exe`.
 ### Docker container
 If you are not familiar with building Docker containers you can read [this](doc/DOCKER.md).
 
+### MikroTik RouterOS container
+YTuner can run as a container directly on a MikroTik router with container support (e.g. RB5009), so you don't need a separate YTuner machine. The router's static DNS entries point `*.vtuner.com` to the container.
+Ready to use `Dockerfile` and build script are in the [mikrotik](mikrotik) directory. Step by step installation is described [here](doc/MIKROTIK.md).
+
 ## Build
 You can use [Lazarus Free Pascal RAD IDE](https://www.lazarus-ide.org/) to build YTuner. 
 Use the latest versions of IDE and FPC. Relevant project file is included.
