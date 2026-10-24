@@ -112,6 +112,7 @@ The list below was built up by people testing with their own hardware, upstream'
   * Denon RCD-N7 (Tested by [breml](https://github.com/breml). Thank you.)
   * Denon RCD-N9 CEOL (Tested by [xaanur](https://github.com/xaanur). Thank you.)
   * Denon S-32 (Tested by [xaanur](https://github.com/xaanur). Thank you.)
+  * Denon S-52 (Tested by [utopinux](https://github.com/utopinux). Thank you.)
   * Denon DNP-F109 (Confirmed by [jpaudioa4](https://github.com/jpaudioa4). Thank you.)
   * Denon DNP-730AE (Tested by [ThoWa85](https://github.com/ThoWa85). Thank you.)
 - Pioneer
@@ -164,8 +165,9 @@ The list below was built up by people testing with their own hardware, upstream'
   * Teac NP-H750 (Tested by [sfcamil](https://github.com/sfcamil). Thank you.)
 - WiiM
   * WiiM Ultra (Tested by [KHAGENA-123](https://github.com/KHAGENA-123). Thank you.)
-- Libratone
+- Others
   * Libratone Zipp Speaker (Tested by [ndx1905-github](https://github.com/ndx1905-github). Thank you. /Read https://github.com/coffeegreg/YTuner/discussions/68 and/or https://github.com/coffeegreg/YTuner/issues/58 to find out how to use it/)
+  * Naim Uniti 1 (Tested by [gery357](https://github.com/gery357). Thank you.)
 
 ### Frontier Silicon radios
 
