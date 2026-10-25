@@ -1,0 +1,5 @@
+*
+!src
+!res
+!mikrotik/build-ytuner.sh
+!mikrotik/entrypoint.sh

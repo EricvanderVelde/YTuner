@@ -4,6 +4,6 @@
 set -e
 ARCH=${1:-arm64}
 cd "$(dirname "$0")"
-docker buildx build --platform "linux/$ARCH" -t "ytuner:$ARCH" --load .
+docker buildx build --platform "linux/$ARCH" -f Dockerfile -t "ytuner:$ARCH" --load ..
 docker save "ytuner:$ARCH" -o "ytuner-$ARCH.tar"
 ls -lh "ytuner-$ARCH.tar"

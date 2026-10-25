@@ -7,7 +7,8 @@ If you own a MikroTik router with container support, you don't need a separate m
 - AVRs use the router as their DNS server (default when they get their address from the router's DHCP server).
 
 The files used below are in the [mikrotik](../mikrotik) directory of this repository:
-- `Dockerfile` - Debian bookworm-slim based image with the official YTuner release binary, SQLite3 and OpenSSL libraries.
+- `Dockerfile` - compiles YTuner from this repository's source and packs it in a Debian bookworm-slim based image with SQLite3 and OpenSSL libraries. Default config files come from the official YTuner release.
+- `build-ytuner.sh` - compiler invocation used by the `Dockerfile`.
 - `entrypoint.sh` - on first start, copies the default `ytuner.ini` and config files to `/data`, then runs YTuner.
 - `build.sh` - builds the image and saves it as a tar file ready for RouterOS.
 
@@ -26,18 +27,19 @@ Enable=0
 YTuner's own DNS proxy is disabled because RouterOS static DNS entries do the job.
 ## That's easy
 ### 1) Build the image
-On any Linux machine with Docker (buildx), no ARM emulation needed:
+On any x86_64 Linux machine with Docker (buildx), no ARM emulation needed:
 ```
 $ cd mikrotik
 $ ./build.sh arm64
 ...
 -rw------- 1 user user 106M ytuner-arm64.tar
 ```
+The first build takes a few minutes, because it builds the Free Pascal 3.3.1 compiler (the version used for the official YTuner binaries) and an ARM64 cross compiler. Later builds reuse them from the Docker build cache.
+
 Use `./build.sh amd64` for x86/CHR routers, or to test the image on your PC first:
 ```
 $ docker run --rm -p 8080:80 -v /tmp/ytuner-data:/data ytuner:amd64
 ```
-To build another YTuner release, change `YTUNER_VERSION` in the `Dockerfile`.
 ### 2) Install the container package
 Download the `container` package matching your RouterOS version and architecture and reboot:
 ```
@@ -120,6 +122,11 @@ To update YTuner, build a new tar file, upload it and recreate the container wit
 /container add name=ytuner file=usb1/ytuner/ytuner-arm64.tar interface=veth-ytuner root-dir=usb1/ytuner/root mountlists=ytuner hostname=ytuner logging=yes start-on-boot=yes
 /container start ytuner
 ```
+With `RBCacheTTL=0` the station database is never refreshed. To get a fresh copy of Radio-browser.info, remove it before starting the container, and YTuner builds a new one (about 5 minutes on an RB5009):
+```
+/file remove usb1/ytuner/data/db/rb.db
+```
+>Tip: Radio-browser.info servers return only 1000 stations for requests without an explicit `limit`. YTuner from this repository always sends one. If your database holds only about 1000 stations, it was built by a version without this fix: remove `rb.db` as shown above.
 ## Summary
-YTuner uses about 11MB of RAM on an RB5009 with `catPermMemDB` cache, so it runs comfortably next to the usual router tasks.
+YTuner uses about 90MB of RAM on an RB5009 with `catPermMemDB` cache and the full Radio-browser.info database (~70,000 stations), so it runs comfortably next to the usual router tasks.
 Use the MikroTik documentation to learn more about containers (https://help.mikrotik.com/docs/spaces/ROS/pages/84901929/Container).
